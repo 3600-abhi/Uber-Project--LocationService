@@ -1,0 +1,18 @@
+server:
+  port: 8004
+
+
+
+spring:
+  cloud:
+    host: redis-17757.c282.east-us-mz.azure.redns.redis-cloud.com
+    port: 17757
+    password: U6qiMyzA0IaDmc2VhI0d1rhBd94ngDtO
+
+custom:
+  redis:
+    host: redis-17757.c282.east-us-mz.azure.redns.redis-cloud.com
+    port: 17757
+    password: U6qiMyzA0IaDmc2VhI0d1rhBd94ngDtO
+  search-driver:
+    radius: 5.5
