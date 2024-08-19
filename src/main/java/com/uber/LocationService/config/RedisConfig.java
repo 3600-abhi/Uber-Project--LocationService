@@ -14,34 +14,28 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    private final Environment environment;
+    @Value("${custom.redis.host}")
+    private String hostUrl;
 
-    private final String hostUrl;
+    @Value("${custom.redis.port}")
+    private int port;
 
-    private final String port;
 
-    private final String password;
+    @Bean
+    public JedisConnectionFactory jedisConnectionFactory() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(hostUrl);
+        redisStandaloneConfiguration.setPort(port);
 
-    public RedisConfig(Environment environment) {
-        this.environment = environment;
-        this.hostUrl = this.environment.getProperty("custom.redis.host");
-        this.port = this.environment.getProperty("custom.redis.port");
-        this.password = this.environment.getProperty("custom.redis.password");
+        JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().usePooling().build();
+
+        return new JedisConnectionFactory(redisStandaloneConfiguration, jedisClientConfiguration);
     }
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setHostName(hostUrl);
-        jedisConnectionFactory.setPort(Integer.parseInt(port));
-        jedisConnectionFactory.setPassword(password);
-        return jedisConnectionFactory;
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;
