@@ -1,5 +1,6 @@
 package com.uber.LocationService.controllers;
 
+import com.uber.LocationService.constant.AppConstant;
 import com.uber.LocationService.dto.GetNearByDriversRequestDto;
 import com.uber.LocationService.dto.SaveDriverLocationRequestDto;
 import com.uber.LocationService.services.LocationService;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/location")
+@RequestMapping("/api/v1/location/")
 public class LocationController {
 
     private final LocationService locationService;
@@ -29,12 +30,12 @@ public class LocationController {
     }
 
 
-    @PostMapping("/driver")
+    @PostMapping(AppConstant.SAVE_DRIVER_LOCATION)
     public ResponseEntity<?> saveDriverLocation(@RequestBody SaveDriverLocationRequestDto saveDriverLocationRequestDto) {
         return new ResponseEntity<>(locationService.saveDriverLocation(saveDriverLocationRequestDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/nearby/drivers")
+    @PostMapping(AppConstant.GET_NEARBY_DRIVERS)
     public ResponseEntity<?> getNearByDrivers(@RequestBody GetNearByDriversRequestDto getNearByDriversRequestDto) {
         return new ResponseEntity<>(locationService.getNearByDrivers(getNearByDriversRequestDto), HttpStatus.OK);
     }
