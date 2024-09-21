@@ -9,8 +9,11 @@ server:
 #    port: 6379
 
 custom:
+  here-map-api-key: ${HERE_MAP_API_KEY}
   redis:
     host: 127.0.0.1
     port: 6379
   search-driver:
     radius: 5.5
+  api-url:
+    here-map-location-auto-suggest-service: https://autosuggest.search.hereapi.com/
